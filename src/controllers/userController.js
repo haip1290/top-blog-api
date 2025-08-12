@@ -1,7 +1,7 @@
 import asyncHandler from "express-async-handler";
 import userRepo from "../db/userRepo.js";
 import bcrypt from "bcrypt";
-import validateUserSignUp from "../validators/userValidator.js";
+import * as userValidator from "../validators/userValidator.js";
 
 const userToDTO = (user) => ({
   id: user.id,
@@ -11,7 +11,7 @@ const userToDTO = (user) => ({
 
 const userController = {
   signUp: [
-    validateUserSignUp,
+    userValidator.validateUserSignUp,
     asyncHandler(async (req, res) => {
       console.log("Sign up user");
       const { username, email, password } = req.body;
@@ -32,10 +32,22 @@ const userController = {
   getAlluser: asyncHandler(async (req, res) => {
     console.log("Get All user from database");
     const { page, size } = req.query;
-    const users = await userRepo.getAllUsersNotDeletedPaging(page, size);
+    const users = await userRepo.getAllActiveUsersPaging(page, size);
     const usersDTO = users.map((user) => userToDTO(user));
     console.log("Found all user from database");
     return res.json({ message: "List of all users", data: usersDTO });
+  }),
+
+  deleteUser: asyncHandler(async (req, res) => {
+    const id = Number(req.params.id);
+    if (isNaN(id))
+      return res
+        .status(400)
+        .json({ message: "Error", error: "Invalid user ID", data: id });
+    console.log("Deleting user ", id);
+    const deletedUser = await userRepo.deleteUser(id);
+    console.log("Deleted user ", deletedUser.id);
+    return res.json({ message: "Deleted User", data: userToDTO(deletedUser) });
   }),
 };
 

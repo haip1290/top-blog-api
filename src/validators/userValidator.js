@@ -30,4 +30,4 @@ const validateUserSignUp = [
   validateRequest,
 ];
 
-export default validateUserSignUp;
+export { validateUserSignUp };
