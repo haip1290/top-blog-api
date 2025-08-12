@@ -12,7 +12,7 @@ app.use("/", indexRoute);
 
 app.use((error, req, res, next) => {
   console.log("Something went wrong ", error);
-  res.status(500).json({ message: error.message });
+  res.status(500).json({ message: error.message, errors: [error.message] });
 });
 
 const PORT = process.env.PORT || 3000;

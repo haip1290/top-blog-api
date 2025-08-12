@@ -1,4 +1,5 @@
-import { PrismaClient } from "../../generated/prisma/index.js";
+import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
+import { PrismaClient, Prisma } from "../../generated/prisma/index.js";
 const prisma = new PrismaClient();
 
 const userRepo = {
@@ -6,12 +7,19 @@ const userRepo = {
     console.log("Inserting user into database");
     try {
       const user = await prisma.user.create({
-        data: { email, username, password },
+        data: {
+          email,
+          username,
+          password,
+        },
       });
       console.log("Inserted user into database ", user.id);
       return user;
     } catch (error) {
       console.log("Error while inserting user into database ", error);
+      if (error.code === "P2002") {
+        throw new Error(`User with email ${email} already exists`);
+      }
       throw error;
     }
   },
