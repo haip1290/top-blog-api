@@ -1,35 +1,33 @@
-import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
-import { PrismaClient, Prisma } from "../../generated/prisma/index.js";
+import { Prisma, PrismaClient } from "../../generated/prisma/index.js";
+import {
+  handleUserExistsError,
+  handleUserNotFoundError,
+} from "./prismaErrorHandler.js";
+
 const prisma = new PrismaClient();
 
-const throwUserNotFoundError = (error) => {
-  if (error.code === "P2025") {
-    throw new Error(`User with id ${id} not found`);
-  }
-};
-const throwUserExistsError = (error) => {
-  if (error.code === "P2002") {
-    throw new Error(`User with email ${email} already exists`);
-  }
-};
-
 const userRepo = {
-  createUser: async ({ email, password, username }) => {
+  createUser: async (data) => {
     console.log("Inserting user into database");
     try {
-      const user = await prisma.user.create({
-        data: {
-          email,
-          username,
-          password,
-        },
-      });
+      const user = await prisma.user.create({ data });
       console.log("Inserted user into database ", user.id);
       return user;
     } catch (error) {
-      console.log("Error inserting user into database ", error);
-      throwUserExistsError;
+      console.error("Error inserting user into database ", error);
+      handleUserExistsError(error.code, data.email);
       throw error;
+    }
+  },
+  createAuthor: async (data) => {
+    try {
+      console.log("Inserting author into database");
+      const user = await prisma.user.create({ data, role: Prisma.role.AUTHOR });
+      console.log("Inserted author into database ", user.id);
+      return user;
+    } catch (error) {
+      console.error("Error inserting author into database ", error);
+      handleUserExistsError(error.code, data.email);
     }
   },
   getAllActiveUsers: async () => {
@@ -38,19 +36,26 @@ const userRepo = {
       const users = await prisma.user.findMany({ where: { isDeleted: false } });
       return users;
     } catch (error) {
-      console.log("Error querying undeleted users from database ", error);
+      console.error("Error querying undeleted users from database ", error);
       throw error;
     }
   },
-  getAllActiveUsersPaging: async (page, size) => {
+  getAllActiveUsersPaging: async (page = 1, size = 10) => {
     console.log(
       `Query non deleted users from users with paging: page ${page}, size ${size}`
     );
     try {
-      const users = await prisma.user.findMany({ where: { isDeleted: false } });
-      return users;
+      const [users, totalCount] = await prisma.$transaction([
+        prisma.user.findMany({
+          skip: (page - 1) * size,
+          take: size,
+          where: { isDeleted: false },
+        }),
+        prisma.user.count({ where: { isDeleted: false } }),
+      ]);
+      return { users, totalCount };
     } catch (error) {
-      console.log("Error querying non deleted users with paging", error);
+      console.error("Error querying non deleted users with paging", error);
       throw error;
     }
   },
@@ -61,8 +66,8 @@ const userRepo = {
       console.log(`updated user `, updatedUser.id);
       return updatedUser;
     } catch (error) {
-      console.log("Error update user ", error);
-      throwUserNotFoundError;
+      console.error("Error update user ", error);
+      handleUserNotFoundError(error.code, id);
       throw error;
     }
   },
@@ -78,8 +83,8 @@ const userRepo = {
       );
       return updatedUser;
     } catch (error) {
-      console.log("Error update user isDeleted ", error);
-      throwUserNotFoundError;
+      console.error("Error update user isDeleted ", error);
+      handleUserNotFoundError(error.code, id);
       throw error;
     }
   },

@@ -2,12 +2,7 @@ import asyncHandler from "express-async-handler";
 import userRepo from "../db/userRepo.js";
 import bcrypt from "bcrypt";
 import * as userValidator from "../validators/userValidator.js";
-
-const userToDTO = (user) => ({
-  id: user.id,
-  username: user.username,
-  email: user.email,
-});
+import { userToDTO } from "../mapper/mapper.js";
 
 const userController = {
   signUp: [
@@ -32,10 +27,16 @@ const userController = {
   getAlluser: asyncHandler(async (req, res) => {
     console.log("Get All user from database");
     const { page, size } = req.query;
-    const users = await userRepo.getAllActiveUsersPaging(page, size);
+    const { users, totalCount } = await userRepo.getAllActiveUsersPaging(
+      page,
+      Number(size)
+    );
     const usersDTO = users.map((user) => userToDTO(user));
     console.log("Found all user from database");
-    return res.json({ message: "List of all users", data: usersDTO });
+    return res.json({
+      message: "List of all users",
+      data: { users: usersDTO, totalCount },
+    });
   }),
 
   deleteUser: asyncHandler(async (req, res) => {

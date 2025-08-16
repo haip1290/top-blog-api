@@ -2,12 +2,14 @@ import "dotenv/config";
 import express from "express";
 import indexRoute from "./routes/indexRoute.js";
 import userRoute from "./routes/userRoute.js";
+import authorRoute from "./routes/authorRoute.js";
 
 const app = express();
 
 app.use(express.json());
 
 app.use("/users", userRoute);
+app.use("/authors", authorRoute);
 app.use("/", indexRoute);
 
 app.use((error, req, res, next) => {

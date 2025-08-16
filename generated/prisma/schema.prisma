@@ -47,8 +47,8 @@ model Comment {
   creatAt   DateTime @default(now())
   content   String
   isDeleted Boolean  @default(false)
-  author    User     @relation(fields: [authorId], references: [id])
-  authorId  Int
+  user      User     @relation(fields: [userID], references: [id])
+  userID    Int
   post      Post     @relation(fields: [postId], references: [id])
   postId    Int
 }
