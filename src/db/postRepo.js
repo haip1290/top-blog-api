@@ -1,5 +1,5 @@
 import { PrismaClient } from "../../generated/prisma/index.js";
-import { handleAuthorNotFoundError } from "./prismaErrorHandler.js";
+import { handleConstraintNotFoundError } from "./prismaErrorHandler.js";
 
 const prisma = new PrismaClient();
 
@@ -12,7 +12,7 @@ const postRepo = {
       return post;
     } catch (error) {
       console.error("Error inserting new post ", error);
-      handleAuthorNotFoundError(error.code, data.authorId);
+      handleConstraintNotFoundError(error.code, data.authorId, "author");
       throw error;
     }
   },
@@ -40,12 +40,42 @@ const postRepo = {
           take: size,
           where: { authorId, isDeleted: false },
         }),
-        prisma.post.count({ where: { isDeleted: false } }),
+        prisma.post.count({ where: { authorId, isDeleted: false } }),
       ]);
       console.log("Found posts by author");
       return { posts, totalCount };
     } catch (error) {
       console.error("error query posts by author ", error);
+      throw error;
+    }
+  },
+  updatePostContent: async (postId, data) => {
+    console.log(`Updating post ${postId} content for post `);
+    try {
+      const updatedPost = await prisma.post.update(
+        { data },
+        { where: { id: postId, isDeleted: false } }
+      );
+      console.log(`Updated post ${updatedPost.id}`);
+      return updatedPost;
+    } catch (error) {
+      console.error("Error updating post ", error);
+      handleConstraintNotFoundError(error.code, id, "author");
+      throw error;
+    }
+  },
+  updatePostPublishStatus: async (postId, isPublished) => {
+    console.log(`Update post ${postId} change publish status`);
+    try {
+      const updatedPost = await prisma.post.update({
+        data: { isPublished },
+        where: { id: postId, isDeleted: false },
+      });
+      console.log(`Updated post ${updatedPost.id}`);
+      return updatedPost;
+    } catch (error) {
+      console.error("Error update post change publish status ", error);
+      handleConstraintNotFoundError(error.code, postId, "post");
       throw error;
     }
   },

@@ -1,7 +1,7 @@
 import { Prisma, PrismaClient } from "../../generated/prisma/index.js";
 import {
-  handleUserExistsError,
-  handleUserNotFoundError,
+  handleResourceExistsError,
+  handleResourcerNotFoundError,
 } from "./prismaErrorHandler.js";
 
 const prisma = new PrismaClient();
@@ -15,7 +15,7 @@ const userRepo = {
       return user;
     } catch (error) {
       console.error("Error inserting user into database ", error);
-      handleUserExistsError(error.code, data.email);
+      handleResourceExistsError(error.code, data.email, "user");
       throw error;
     }
   },
@@ -27,7 +27,7 @@ const userRepo = {
       return user;
     } catch (error) {
       console.error("Error inserting author into database ", error);
-      handleUserExistsError(error.code, data.email);
+      handleResourceExistsError(error.code, data.email, "user");
     }
   },
   getAllActiveUsers: async () => {
@@ -67,7 +67,7 @@ const userRepo = {
       return updatedUser;
     } catch (error) {
       console.error("Error update user ", error);
-      handleUserNotFoundError(error.code, id);
+      handleResourcerNotFoundError(error.code, id, "user");
       throw error;
     }
   },
@@ -84,7 +84,7 @@ const userRepo = {
       return updatedUser;
     } catch (error) {
       console.error("Error update user isDeleted ", error);
-      handleUserNotFoundError(error.code, id);
+      handleResourcerNotFoundError(error.code, id, "user");
       throw error;
     }
   },

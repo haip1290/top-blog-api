@@ -1,22 +1,22 @@
-const handleUserNotFoundError = (errorCode, id) => {
+const handleResourcerNotFoundError = (errorCode, field, resourceName) => {
   if (errorCode === "P2025") {
-    throw new Error(`User with id ${id} not found`);
+    throw new Error(`${resourceName} with id ${field} not found`);
   }
 };
-const handleUserExistsError = (errorCode, email) => {
+const handleResourceExistsError = (errorCode, field, resourceName) => {
   if (errorCode === "P2002") {
-    throw new Error(`User with email ${email} already exists`);
+    throw new Error(`${resourceName} with email ${field} already exists`);
   }
 };
 
-const handleAuthorNotFoundError = (errorCode, id) => {
+const handleConstraintNotFoundError = (errorCode, field, resourceName) => {
   if (errorCode === "P2003") {
-    throw new Error(`Author not found ${id}`);
+    throw new Error(`${resourceName} with ${field} not found`);
   }
 };
 
 export {
-  handleUserExistsError,
-  handleUserNotFoundError,
-  handleAuthorNotFoundError,
+  handleResourceExistsError,
+  handleResourcerNotFoundError,
+  handleConstraintNotFoundError,
 };

@@ -1,33 +1,43 @@
-import { body } from "express-validator";
+import { body, param } from "express-validator";
 import validateRequest from "./validator.js";
 
-const isRequireMsg = "is required";
-const usernameLengthMsg = "must be in range 3-20 characters";
-const passwordLengthMsg = "must be in range 6-20 characters";
-const validEmailMsg = "Please enter a valid email address";
-const isAlphanumericMSg = "must be alphabet letters and numbers";
+import {
+  generalMsg,
+  usernameMsg,
+  emailMsg,
+  passwordMsg,
+} from "./validationMsg.js";
 
 const validateUserSignUp = [
   body("username")
     .trim()
     .notEmpty()
-    .withMessage("Username " + isRequireMsg)
+    .withMessage("Username " + generalMsg.isRequire)
     .isLength({ min: 3, max: 10 })
-    .withMessage("Username " + usernameLengthMsg)
+    .withMessage("Username " + usernameMsg.length)
     .isAlphanumeric()
-    .withMessage("USername " + isAlphanumericMSg),
+    .withMessage("USername " + generalMsg.isAlphanumeric),
   body("email")
     .trim()
     .notEmpty()
-    .withMessage("Email " + isRequireMsg)
+    .withMessage(`Email ${generalMsg.isRequire}`)
     .isEmail()
-    .withMessage(validEmailMsg),
+    .withMessage(emailMsg.valid),
   body("password")
     .notEmpty()
-    .withMessage("Password " + isRequireMsg)
+    .withMessage(`Password ${generalMsg.isRequire}`)
     .isLength({ min: 6, max: 20 })
-    .withMessage("Password " + passwordLengthMsg),
+    .withMessage(`Password ${passwordMsg.length}`),
   validateRequest,
 ];
 
-export { validateUserSignUp };
+const validateUserId = [
+  param("authorId")
+    .exists()
+    .withMessage(`Author ID  ${generalMsg.isRequire}`)
+    .isInt({ min: 1 })
+    .withMessage(`Author ID  ${generalMsg.isPositiveInt}`),
+  validateRequest,
+];
+
+export { validateUserSignUp, validateUserId };
