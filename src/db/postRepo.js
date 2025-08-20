@@ -1,5 +1,8 @@
 import { PrismaClient } from "../../generated/prisma/index.js";
-import { handleConstraintNotFoundError } from "./prismaErrorHandler.js";
+import {
+  handleConstraintNotFoundError,
+  handleResourcerNotFoundError,
+} from "./prismaErrorHandler.js";
 
 const prisma = new PrismaClient();
 
@@ -49,18 +52,18 @@ const postRepo = {
       throw error;
     }
   },
-  updatePostContent: async (postId, data) => {
+  updatePost: async (postId, data) => {
     console.log(`Updating post ${postId} content for post `);
     try {
-      const updatedPost = await prisma.post.update(
-        { data },
-        { where: { id: postId, isDeleted: false } }
-      );
+      const updatedPost = await prisma.post.update({
+        data,
+        where: { id: postId, isDeleted: false },
+      });
       console.log(`Updated post ${updatedPost.id}`);
       return updatedPost;
     } catch (error) {
       console.error("Error updating post ", error);
-      handleConstraintNotFoundError(error.code, id, "author");
+      handleResourcerNotFoundError(error.code, postId, "post");
       throw error;
     }
   },
@@ -76,6 +79,21 @@ const postRepo = {
     } catch (error) {
       console.error("Error update post change publish status ", error);
       handleConstraintNotFoundError(error.code, postId, "post");
+      throw error;
+    }
+  },
+  updatePostDeleteStatus: async (postId) => {
+    console.log(`Update post ${postId}, change delete status`);
+    try {
+      const deletedPost = await prisma.post.update({
+        data: { isDeleted: true },
+        where: { id: postId, isDeleted: false },
+      });
+      console.log(`Updated post ${deletedPost.id}`);
+      return deletedPost;
+    } catch (error) {
+      console.error(`Error updating post deleted status`, error);
+      handleResourcerNotFoundError(error.code, postId, "post");
       throw error;
     }
   },

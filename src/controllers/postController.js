@@ -30,6 +30,7 @@ const postController = {
       .status(201)
       .json({ message: "created post", data: postToDTO(newPost) });
   }),
+
   getPostsByAuthorId: [
     validatePagination,
     validateUserId,
@@ -55,6 +56,22 @@ const postController = {
       });
     }),
   ],
+
+  updatePost: [
+    validatePostId,
+    asyncHandler(async (req, res) => {
+      const postId = Number(req.params.postId);
+      console.log(`Updating post${postId}`);
+      const { title, content } = req.body;
+      const updatedPost = await postRepo.updatePost(postId, { title, content });
+      console.log(`Updated post ${updatedPost.id}`);
+      return res.json({
+        message: "Updated post",
+        data: postToDTO(updatedPost),
+      });
+    }),
+  ],
+
   publishPost: [
     validatePostId,
     asyncHandler(async (req, res) => {
@@ -71,6 +88,19 @@ const postController = {
       return res.json({
         message: "Published post",
         data: postToDTO(updatedPost),
+      });
+    }),
+  ],
+  deletePost: [
+    validatePostId,
+    asyncHandler(async (req, res) => {
+      const postId = Number(req.params.postId);
+      console.log(`Deleting post ${postId}`);
+      const deletedPost = await postRepo.updatePostDeleteStatus(postId);
+      console.log(`Deleted post ${deletedPost.id}`);
+      return res.json({
+        message: "Deleted post",
+        data: postToDTO(deletedPost),
       });
     }),
   ],
