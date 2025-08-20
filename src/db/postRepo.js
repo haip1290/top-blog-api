@@ -19,6 +19,22 @@ const postRepo = {
       throw error;
     }
   },
+
+  getPostById: async (postId) => {
+    console.log(`Query ${postId} from DB`);
+    try {
+      const post = await prisma.post.findUniqueOrThrow({
+        where: { id: postId, isDeleted: false },
+      });
+      console.log(`Found post ${post.id} from DB`);
+      return post;
+    } catch (error) {
+      console.error(`Error query post ${postId} from DB `, error);
+      handleResourcerNotFoundError(error.code, postId, "post");
+      throw error;
+    }
+  },
+
   getAllActivePostByAuthor: async (authorId) => {
     console.log("Query all post by author ", authorId);
     try {

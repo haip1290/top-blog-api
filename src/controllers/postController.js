@@ -31,13 +31,24 @@ const postController = {
       .json({ message: "created post", data: postToDTO(newPost) });
   }),
 
+  getPostById: [
+    validatePostId,
+    asyncHandler(async (req, res) => {
+      const postId = Number(req.params.postId);
+      console.log(`Get post ${postId} info`);
+      const post = await postRepo.getPostById(postId);
+      console.log(`Found post ${post.id} from repor`);
+      return res.json({ message: "Found post", data: postToDTO(post) });
+    }),
+  ],
+
   getPostsByAuthorId: [
     validatePagination,
     validateUserId,
     asyncHandler(async (req, res) => {
       const authorId = Number(req.params.authorId);
       const { page, size } = req.query;
-      console.log(`Getting all posts by author ${authorId} from DB`);
+      console.log(`Getting all posts by author ${authorId}`);
       const { posts, totalCount } =
         await postRepo.getAllActivePostByAuthorPaging(
           authorId,
