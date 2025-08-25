@@ -15,7 +15,10 @@ const postRepo = {
       return post;
     } catch (error) {
       console.error("Error inserting new post ", error);
-      handleConstraintNotFoundError(error.code, data.authorId, "author");
+      handleConstraintNotFoundError(error.code, {
+        resourceName: "author",
+        resourceData: data.authorId,
+      });
       throw error;
     }
   },
@@ -25,12 +28,16 @@ const postRepo = {
     try {
       const post = await prisma.post.findUniqueOrThrow({
         where: { id: postId, isDeleted: false },
+        include: { comments: true },
       });
       console.log(`Found post ${post.id} from DB`);
       return post;
     } catch (error) {
       console.error(`Error query post ${postId} from DB `, error);
-      handleResourcerNotFoundError(error.code, postId, "post");
+      handleResourcerNotFoundError(error.code, {
+        resourceName: "post",
+        resourceData: postId,
+      });
       throw error;
     }
   },
@@ -61,7 +68,7 @@ const postRepo = {
         }),
         prisma.post.count({ where: { authorId, isDeleted: false } }),
       ]);
-      console.log("Found posts by author");
+      console.log(`Found ${totalCount} posts by author`);
       return { posts, totalCount };
     } catch (error) {
       console.error("error query posts by author ", error);
@@ -79,7 +86,10 @@ const postRepo = {
       return updatedPost;
     } catch (error) {
       console.error("Error updating post ", error);
-      handleResourcerNotFoundError(error.code, postId, "post");
+      handleResourcerNotFoundError(error.code, {
+        resourceName: "post",
+        resourceData: postId,
+      });
       throw error;
     }
   },
@@ -94,7 +104,10 @@ const postRepo = {
       return updatedPost;
     } catch (error) {
       console.error("Error update post change publish status ", error);
-      handleConstraintNotFoundError(error.code, postId, "post");
+      handleConstraintNotFoundError(error.code, {
+        resourceName: "post",
+        resourceData: postId,
+      });
       throw error;
     }
   },
@@ -109,7 +122,10 @@ const postRepo = {
       return deletedPost;
     } catch (error) {
       console.error(`Error updating post deleted status`, error);
-      handleResourcerNotFoundError(error.code, postId, "post");
+      handleResourcerNotFoundError(error.code, {
+        resourceName: "post",
+        resourceData: postId,
+      });
       throw error;
     }
   },

@@ -4,10 +4,13 @@ import indexRoute from "./routes/indexRoute.js";
 import userRoute from "./routes/userRoute.js";
 import authorRoute from "./routes/authorRoute.js";
 import postRoute from "./routes/postRoute.js";
+import authRoute from "./routes/authRoute.js";
 
 const app = express();
 
 app.use(express.json());
+
+app.use("/auth", authRoute);
 
 app.use("/users", userRoute);
 app.use("/authors", authorRoute);

@@ -1,8 +1,9 @@
 import asyncHandler from "express-async-handler";
 import postRepo from "../db/postRepo.js";
 import { validatePagination } from "../validators/paginationValidator.js";
-import { validateUserId } from "../validators/userValidator.js";
+import { validateAuthorId } from "../validators/userValidator.js";
 import { validatePostId } from "../validators/postValidator.js";
+import { commentToDTO } from "./commentController.js";
 
 const postToDTO = (post) => ({
   id: post.id,
@@ -10,13 +11,14 @@ const postToDTO = (post) => ({
   content: post.content,
   authorId: post.authorId,
   isPublished: post.isPublished,
+  comments: post.comments?.map((comment) => commentToDTO(comment)),
 });
 
 const postController = {
   createPost: asyncHandler(async (req, res) => {
     console.log("Creating post");
-    // const authorId = Number(req.user.id);
-    const authorId = 10;
+    console.log("User ", req.user);
+    const authorId = Number(req.user.id);
     const { title, content, isPublished } = req.body;
     const data = {
       title,
@@ -44,7 +46,7 @@ const postController = {
 
   getPostsByAuthorId: [
     validatePagination,
-    validateUserId,
+    validateAuthorId,
     asyncHandler(async (req, res) => {
       const authorId = Number(req.params.authorId);
       const { page, size } = req.query;

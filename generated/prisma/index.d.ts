@@ -95,13 +95,6 @@ export class PrismaClient<
    */
   $disconnect(): $Utils.JsPromise<void>;
 
-  /**
-   * Add a middleware
-   * @deprecated since 4.16.0. For new code, prefer client extensions instead.
-   * @see https://pris.ly/d/extensions
-   */
-  $use(cb: Prisma.Middleware): void
-
 /**
    * Executes a prepared raw query and returns the number of affected rows.
    * @example
@@ -258,8 +251,8 @@ export namespace Prisma {
   export import Exact = $Public.Exact
 
   /**
-   * Prisma Client JS version: 6.13.0
-   * Query Engine version: 361e86d0ea4987e9f53a565309b3eed797a6bcbd
+   * Prisma Client JS version: 6.14.0
+   * Query Engine version: 717184b7b35ea05dfa71a3236b7af656013e1e49
    */
   export type PrismaVersion = {
     client: string
@@ -1039,25 +1032,6 @@ export namespace Prisma {
     | 'runCommandRaw'
     | 'findRaw'
     | 'groupBy'
-
-  /**
-   * These options are being passed into the middleware as "params"
-   */
-  export type MiddlewareParams = {
-    model?: ModelName
-    action: PrismaAction
-    args: any
-    dataPath: string[]
-    runInTransaction: boolean
-  }
-
-  /**
-   * The `T` type makes sure, that the `return proceed` is not forgotten in the middleware implementation
-   */
-  export type Middleware<T = any> = (
-    params: MiddlewareParams,
-    next: (params: MiddlewareParams) => $Utils.JsPromise<T>,
-  ) => $Utils.JsPromise<T>
 
   // tested in getLogLevel.test.ts
   export function getLogLevel(log: Array<LogLevel | LogDefinition>): LogLevel | undefined;
@@ -3462,40 +3436,40 @@ export namespace Prisma {
 
   export type CommentAvgAggregateOutputType = {
     id: number | null
-    userID: number | null
+    userId: number | null
     postId: number | null
   }
 
   export type CommentSumAggregateOutputType = {
     id: number | null
-    userID: number | null
+    userId: number | null
     postId: number | null
   }
 
   export type CommentMinAggregateOutputType = {
     id: number | null
-    creatAt: Date | null
+    createAt: Date | null
     content: string | null
     isDeleted: boolean | null
-    userID: number | null
+    userId: number | null
     postId: number | null
   }
 
   export type CommentMaxAggregateOutputType = {
     id: number | null
-    creatAt: Date | null
+    createAt: Date | null
     content: string | null
     isDeleted: boolean | null
-    userID: number | null
+    userId: number | null
     postId: number | null
   }
 
   export type CommentCountAggregateOutputType = {
     id: number
-    creatAt: number
+    createAt: number
     content: number
     isDeleted: number
-    userID: number
+    userId: number
     postId: number
     _all: number
   }
@@ -3503,40 +3477,40 @@ export namespace Prisma {
 
   export type CommentAvgAggregateInputType = {
     id?: true
-    userID?: true
+    userId?: true
     postId?: true
   }
 
   export type CommentSumAggregateInputType = {
     id?: true
-    userID?: true
+    userId?: true
     postId?: true
   }
 
   export type CommentMinAggregateInputType = {
     id?: true
-    creatAt?: true
+    createAt?: true
     content?: true
     isDeleted?: true
-    userID?: true
+    userId?: true
     postId?: true
   }
 
   export type CommentMaxAggregateInputType = {
     id?: true
-    creatAt?: true
+    createAt?: true
     content?: true
     isDeleted?: true
-    userID?: true
+    userId?: true
     postId?: true
   }
 
   export type CommentCountAggregateInputType = {
     id?: true
-    creatAt?: true
+    createAt?: true
     content?: true
     isDeleted?: true
-    userID?: true
+    userId?: true
     postId?: true
     _all?: true
   }
@@ -3629,10 +3603,10 @@ export namespace Prisma {
 
   export type CommentGroupByOutputType = {
     id: number
-    creatAt: Date
+    createAt: Date
     content: string
     isDeleted: boolean
-    userID: number
+    userId: number
     postId: number
     _count: CommentCountAggregateOutputType | null
     _avg: CommentAvgAggregateOutputType | null
@@ -3657,10 +3631,10 @@ export namespace Prisma {
 
   export type CommentSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    creatAt?: boolean
+    createAt?: boolean
     content?: boolean
     isDeleted?: boolean
-    userID?: boolean
+    userId?: boolean
     postId?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     post?: boolean | PostDefaultArgs<ExtArgs>
@@ -3668,10 +3642,10 @@ export namespace Prisma {
 
   export type CommentSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    creatAt?: boolean
+    createAt?: boolean
     content?: boolean
     isDeleted?: boolean
-    userID?: boolean
+    userId?: boolean
     postId?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     post?: boolean | PostDefaultArgs<ExtArgs>
@@ -3679,10 +3653,10 @@ export namespace Prisma {
 
   export type CommentSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    creatAt?: boolean
+    createAt?: boolean
     content?: boolean
     isDeleted?: boolean
-    userID?: boolean
+    userId?: boolean
     postId?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     post?: boolean | PostDefaultArgs<ExtArgs>
@@ -3690,14 +3664,14 @@ export namespace Prisma {
 
   export type CommentSelectScalar = {
     id?: boolean
-    creatAt?: boolean
+    createAt?: boolean
     content?: boolean
     isDeleted?: boolean
-    userID?: boolean
+    userId?: boolean
     postId?: boolean
   }
 
-  export type CommentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "creatAt" | "content" | "isDeleted" | "userID" | "postId", ExtArgs["result"]["comment"]>
+  export type CommentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "createAt" | "content" | "isDeleted" | "userId" | "postId", ExtArgs["result"]["comment"]>
   export type CommentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     post?: boolean | PostDefaultArgs<ExtArgs>
@@ -3719,10 +3693,10 @@ export namespace Prisma {
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
-      creatAt: Date
+      createAt: Date
       content: string
       isDeleted: boolean
-      userID: number
+      userId: number
       postId: number
     }, ExtArgs["result"]["comment"]>
     composites: {}
@@ -4150,10 +4124,10 @@ export namespace Prisma {
    */
   interface CommentFieldRefs {
     readonly id: FieldRef<"Comment", 'Int'>
-    readonly creatAt: FieldRef<"Comment", 'DateTime'>
+    readonly createAt: FieldRef<"Comment", 'DateTime'>
     readonly content: FieldRef<"Comment", 'String'>
     readonly isDeleted: FieldRef<"Comment", 'Boolean'>
-    readonly userID: FieldRef<"Comment", 'Int'>
+    readonly userId: FieldRef<"Comment", 'Int'>
     readonly postId: FieldRef<"Comment", 'Int'>
   }
     
@@ -4610,10 +4584,10 @@ export namespace Prisma {
 
   export const CommentScalarFieldEnum: {
     id: 'id',
-    creatAt: 'creatAt',
+    createAt: 'createAt',
     content: 'content',
     isDeleted: 'isDeleted',
-    userID: 'userID',
+    userId: 'userId',
     postId: 'postId'
   };
 
@@ -4861,10 +4835,10 @@ export namespace Prisma {
     OR?: CommentWhereInput[]
     NOT?: CommentWhereInput | CommentWhereInput[]
     id?: IntFilter<"Comment"> | number
-    creatAt?: DateTimeFilter<"Comment"> | Date | string
+    createAt?: DateTimeFilter<"Comment"> | Date | string
     content?: StringFilter<"Comment"> | string
     isDeleted?: BoolFilter<"Comment"> | boolean
-    userID?: IntFilter<"Comment"> | number
+    userId?: IntFilter<"Comment"> | number
     postId?: IntFilter<"Comment"> | number
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     post?: XOR<PostScalarRelationFilter, PostWhereInput>
@@ -4872,10 +4846,10 @@ export namespace Prisma {
 
   export type CommentOrderByWithRelationInput = {
     id?: SortOrder
-    creatAt?: SortOrder
+    createAt?: SortOrder
     content?: SortOrder
     isDeleted?: SortOrder
-    userID?: SortOrder
+    userId?: SortOrder
     postId?: SortOrder
     user?: UserOrderByWithRelationInput
     post?: PostOrderByWithRelationInput
@@ -4886,10 +4860,10 @@ export namespace Prisma {
     AND?: CommentWhereInput | CommentWhereInput[]
     OR?: CommentWhereInput[]
     NOT?: CommentWhereInput | CommentWhereInput[]
-    creatAt?: DateTimeFilter<"Comment"> | Date | string
+    createAt?: DateTimeFilter<"Comment"> | Date | string
     content?: StringFilter<"Comment"> | string
     isDeleted?: BoolFilter<"Comment"> | boolean
-    userID?: IntFilter<"Comment"> | number
+    userId?: IntFilter<"Comment"> | number
     postId?: IntFilter<"Comment"> | number
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     post?: XOR<PostScalarRelationFilter, PostWhereInput>
@@ -4897,10 +4871,10 @@ export namespace Prisma {
 
   export type CommentOrderByWithAggregationInput = {
     id?: SortOrder
-    creatAt?: SortOrder
+    createAt?: SortOrder
     content?: SortOrder
     isDeleted?: SortOrder
-    userID?: SortOrder
+    userId?: SortOrder
     postId?: SortOrder
     _count?: CommentCountOrderByAggregateInput
     _avg?: CommentAvgOrderByAggregateInput
@@ -4914,10 +4888,10 @@ export namespace Prisma {
     OR?: CommentScalarWhereWithAggregatesInput[]
     NOT?: CommentScalarWhereWithAggregatesInput | CommentScalarWhereWithAggregatesInput[]
     id?: IntWithAggregatesFilter<"Comment"> | number
-    creatAt?: DateTimeWithAggregatesFilter<"Comment"> | Date | string
+    createAt?: DateTimeWithAggregatesFilter<"Comment"> | Date | string
     content?: StringWithAggregatesFilter<"Comment"> | string
     isDeleted?: BoolWithAggregatesFilter<"Comment"> | boolean
-    userID?: IntWithAggregatesFilter<"Comment"> | number
+    userId?: IntWithAggregatesFilter<"Comment"> | number
     postId?: IntWithAggregatesFilter<"Comment"> | number
   }
 
@@ -5060,7 +5034,7 @@ export namespace Prisma {
   }
 
   export type CommentCreateInput = {
-    creatAt?: Date | string
+    createAt?: Date | string
     content: string
     isDeleted?: boolean
     user: UserCreateNestedOneWithoutCommentsInput
@@ -5069,15 +5043,15 @@ export namespace Prisma {
 
   export type CommentUncheckedCreateInput = {
     id?: number
-    creatAt?: Date | string
+    createAt?: Date | string
     content: string
     isDeleted?: boolean
-    userID: number
+    userId: number
     postId: number
   }
 
   export type CommentUpdateInput = {
-    creatAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createAt?: DateTimeFieldUpdateOperationsInput | Date | string
     content?: StringFieldUpdateOperationsInput | string
     isDeleted?: BoolFieldUpdateOperationsInput | boolean
     user?: UserUpdateOneRequiredWithoutCommentsNestedInput
@@ -5086,34 +5060,34 @@ export namespace Prisma {
 
   export type CommentUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
-    creatAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createAt?: DateTimeFieldUpdateOperationsInput | Date | string
     content?: StringFieldUpdateOperationsInput | string
     isDeleted?: BoolFieldUpdateOperationsInput | boolean
-    userID?: IntFieldUpdateOperationsInput | number
+    userId?: IntFieldUpdateOperationsInput | number
     postId?: IntFieldUpdateOperationsInput | number
   }
 
   export type CommentCreateManyInput = {
     id?: number
-    creatAt?: Date | string
+    createAt?: Date | string
     content: string
     isDeleted?: boolean
-    userID: number
+    userId: number
     postId: number
   }
 
   export type CommentUpdateManyMutationInput = {
-    creatAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createAt?: DateTimeFieldUpdateOperationsInput | Date | string
     content?: StringFieldUpdateOperationsInput | string
     isDeleted?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type CommentUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
-    creatAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createAt?: DateTimeFieldUpdateOperationsInput | Date | string
     content?: StringFieldUpdateOperationsInput | string
     isDeleted?: BoolFieldUpdateOperationsInput | boolean
-    userID?: IntFieldUpdateOperationsInput | number
+    userId?: IntFieldUpdateOperationsInput | number
     postId?: IntFieldUpdateOperationsInput | number
   }
 
@@ -5339,40 +5313,40 @@ export namespace Prisma {
 
   export type CommentCountOrderByAggregateInput = {
     id?: SortOrder
-    creatAt?: SortOrder
+    createAt?: SortOrder
     content?: SortOrder
     isDeleted?: SortOrder
-    userID?: SortOrder
+    userId?: SortOrder
     postId?: SortOrder
   }
 
   export type CommentAvgOrderByAggregateInput = {
     id?: SortOrder
-    userID?: SortOrder
+    userId?: SortOrder
     postId?: SortOrder
   }
 
   export type CommentMaxOrderByAggregateInput = {
     id?: SortOrder
-    creatAt?: SortOrder
+    createAt?: SortOrder
     content?: SortOrder
     isDeleted?: SortOrder
-    userID?: SortOrder
+    userId?: SortOrder
     postId?: SortOrder
   }
 
   export type CommentMinOrderByAggregateInput = {
     id?: SortOrder
-    creatAt?: SortOrder
+    createAt?: SortOrder
     content?: SortOrder
     isDeleted?: SortOrder
-    userID?: SortOrder
+    userId?: SortOrder
     postId?: SortOrder
   }
 
   export type CommentSumOrderByAggregateInput = {
     id?: SortOrder
-    userID?: SortOrder
+    userId?: SortOrder
     postId?: SortOrder
   }
 
@@ -5722,7 +5696,7 @@ export namespace Prisma {
   }
 
   export type CommentCreateWithoutUserInput = {
-    creatAt?: Date | string
+    createAt?: Date | string
     content: string
     isDeleted?: boolean
     post: PostCreateNestedOneWithoutCommentsInput
@@ -5730,7 +5704,7 @@ export namespace Prisma {
 
   export type CommentUncheckedCreateWithoutUserInput = {
     id?: number
-    creatAt?: Date | string
+    createAt?: Date | string
     content: string
     isDeleted?: boolean
     postId: number
@@ -5796,10 +5770,10 @@ export namespace Prisma {
     OR?: CommentScalarWhereInput[]
     NOT?: CommentScalarWhereInput | CommentScalarWhereInput[]
     id?: IntFilter<"Comment"> | number
-    creatAt?: DateTimeFilter<"Comment"> | Date | string
+    createAt?: DateTimeFilter<"Comment"> | Date | string
     content?: StringFilter<"Comment"> | string
     isDeleted?: BoolFilter<"Comment"> | boolean
-    userID?: IntFilter<"Comment"> | number
+    userId?: IntFilter<"Comment"> | number
     postId?: IntFilter<"Comment"> | number
   }
 
@@ -5828,7 +5802,7 @@ export namespace Prisma {
   }
 
   export type CommentCreateWithoutPostInput = {
-    creatAt?: Date | string
+    createAt?: Date | string
     content: string
     isDeleted?: boolean
     user: UserCreateNestedOneWithoutCommentsInput
@@ -5836,10 +5810,10 @@ export namespace Prisma {
 
   export type CommentUncheckedCreateWithoutPostInput = {
     id?: number
-    creatAt?: Date | string
+    createAt?: Date | string
     content: string
     isDeleted?: boolean
-    userID: number
+    userId: number
   }
 
   export type CommentCreateOrConnectWithoutPostInput = {
@@ -6017,7 +5991,7 @@ export namespace Prisma {
 
   export type CommentCreateManyUserInput = {
     id?: number
-    creatAt?: Date | string
+    createAt?: Date | string
     content: string
     isDeleted?: boolean
     postId: number
@@ -6052,7 +6026,7 @@ export namespace Prisma {
   }
 
   export type CommentUpdateWithoutUserInput = {
-    creatAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createAt?: DateTimeFieldUpdateOperationsInput | Date | string
     content?: StringFieldUpdateOperationsInput | string
     isDeleted?: BoolFieldUpdateOperationsInput | boolean
     post?: PostUpdateOneRequiredWithoutCommentsNestedInput
@@ -6060,7 +6034,7 @@ export namespace Prisma {
 
   export type CommentUncheckedUpdateWithoutUserInput = {
     id?: IntFieldUpdateOperationsInput | number
-    creatAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createAt?: DateTimeFieldUpdateOperationsInput | Date | string
     content?: StringFieldUpdateOperationsInput | string
     isDeleted?: BoolFieldUpdateOperationsInput | boolean
     postId?: IntFieldUpdateOperationsInput | number
@@ -6068,7 +6042,7 @@ export namespace Prisma {
 
   export type CommentUncheckedUpdateManyWithoutUserInput = {
     id?: IntFieldUpdateOperationsInput | number
-    creatAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createAt?: DateTimeFieldUpdateOperationsInput | Date | string
     content?: StringFieldUpdateOperationsInput | string
     isDeleted?: BoolFieldUpdateOperationsInput | boolean
     postId?: IntFieldUpdateOperationsInput | number
@@ -6076,14 +6050,14 @@ export namespace Prisma {
 
   export type CommentCreateManyPostInput = {
     id?: number
-    creatAt?: Date | string
+    createAt?: Date | string
     content: string
     isDeleted?: boolean
-    userID: number
+    userId: number
   }
 
   export type CommentUpdateWithoutPostInput = {
-    creatAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createAt?: DateTimeFieldUpdateOperationsInput | Date | string
     content?: StringFieldUpdateOperationsInput | string
     isDeleted?: BoolFieldUpdateOperationsInput | boolean
     user?: UserUpdateOneRequiredWithoutCommentsNestedInput
@@ -6091,18 +6065,18 @@ export namespace Prisma {
 
   export type CommentUncheckedUpdateWithoutPostInput = {
     id?: IntFieldUpdateOperationsInput | number
-    creatAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createAt?: DateTimeFieldUpdateOperationsInput | Date | string
     content?: StringFieldUpdateOperationsInput | string
     isDeleted?: BoolFieldUpdateOperationsInput | boolean
-    userID?: IntFieldUpdateOperationsInput | number
+    userId?: IntFieldUpdateOperationsInput | number
   }
 
   export type CommentUncheckedUpdateManyWithoutPostInput = {
     id?: IntFieldUpdateOperationsInput | number
-    creatAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createAt?: DateTimeFieldUpdateOperationsInput | Date | string
     content?: StringFieldUpdateOperationsInput | string
     isDeleted?: BoolFieldUpdateOperationsInput | boolean
-    userID?: IntFieldUpdateOperationsInput | number
+    userId?: IntFieldUpdateOperationsInput | number
   }
 
 

@@ -44,7 +44,7 @@ const userController = {
   ],
 
   deleteUser: asyncHandler(async (req, res) => {
-    const id = Number(req.params.id);
+    const id = Number(req.params.userId);
     if (isNaN(id))
       return res
         .status(400)

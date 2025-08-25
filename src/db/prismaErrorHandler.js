@@ -1,17 +1,26 @@
-const handleResourcerNotFoundError = (errorCode, field, resourceName) => {
+const handleResourcerNotFoundError = (
+  errorCode,
+  { resourceName, resourceData }
+) => {
   if (errorCode === "P2025") {
-    throw new Error(`${resourceName} with id ${field} not found`);
+    throw new Error(`${resourceName} with ${resourceData} not found`);
   }
 };
-const handleResourceExistsError = (errorCode, field, resourceName) => {
+const handleResourceExistsError = (
+  errorCode,
+  { resourceName, resourceData }
+) => {
   if (errorCode === "P2002") {
-    throw new Error(`${resourceName} with email ${field} already exists`);
+    throw new Error(`${resourceName} with ${resourceData} already exists`);
   }
 };
 
-const handleConstraintNotFoundError = (errorCode, field, resourceName) => {
+const handleConstraintNotFoundError = (
+  errorCode,
+  { resourceName, resourceData }
+) => {
   if (errorCode === "P2003") {
-    throw new Error(`${resourceName} with ${field} not found`);
+    throw new Error(`${resourceName} with ${resourceData} not found`);
   }
 };
 

@@ -31,7 +31,7 @@ const validateUserSignUp = [
   validateRequest,
 ];
 
-const validateUserId = [
+const validateAuthorId = [
   param("authorId")
     .exists()
     .withMessage(`Author ID  ${generalMsg.isRequire}`)
@@ -40,4 +40,4 @@ const validateUserId = [
   validateRequest,
 ];
 
-export { validateUserSignUp, validateUserId };
+export { validateUserSignUp, validateAuthorId };
