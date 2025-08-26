@@ -4,6 +4,11 @@ import bcrypt from "bcrypt";
 import userRepo from "../db/userRepo.js";
 import { userToDto } from "../mapper/mapper.js";
 
+/**
+ * @description Controller containing author-related middlewares to handle author routes
+ * @exports authorController
+ */
+
 const authorController = {
   createAuthor: [
     userValidator.validateUserSignUp,

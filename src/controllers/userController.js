@@ -5,6 +5,11 @@ import { userToDto } from "../mapper/mapper.js";
 import { validateUserSignUp } from "../validators/userValidator.js";
 import { validatePagination } from "../validators/paginationValidator.js";
 
+/**
+ * @description Controller containing user-related middlewares to handle user routes
+ * @exports userController
+ */
+
 const userController = {
   signUp: [
     validateUserSignUp,
