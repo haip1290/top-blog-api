@@ -1,10 +1,9 @@
 import { Router } from "express";
-import passport from "../authentication/passport.js";
+import passport from "../auth/passport.js";
 import jwt from "jsonwebtoken";
+import { userToDto } from "../mapper/mapper.js";
 
 const authRoute = Router();
-
-const userToDTO = (user) => ({ id: user.id, email: user.email });
 
 authRoute.post("/login", (req, res, next) => {
   passport.authenticate("local", { session: false }, (error, user, info) => {
@@ -18,7 +17,7 @@ authRoute.post("/login", (req, res, next) => {
     const token = jwt.sign(payload, secret, { expiresIn: "1h" });
     return res.json({
       message: "Authenticated successfully",
-      data: { user: userToDTO(user), token },
+      data: { user: userToDto(user), token },
     });
   })(req, res, next);
 });

@@ -17,7 +17,6 @@ const postToDTO = (post) => ({
 const postController = {
   createPost: asyncHandler(async (req, res) => {
     console.log("Creating post");
-    console.log("User ", req.user);
     const authorId = Number(req.user.id);
     const { title, content, isPublished } = req.body;
     const data = {

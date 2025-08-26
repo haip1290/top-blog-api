@@ -1,7 +1,7 @@
 import asyncHandler from "express-async-handler";
 import userRepo from "../db/userRepo.js";
 import bcrypt from "bcrypt";
-import { userToDTO } from "../mapper/mapper.js";
+import { userToDto } from "../mapper/mapper.js";
 import { validateUserSignUp } from "../validators/userValidator.js";
 import { validatePagination } from "../validators/paginationValidator.js";
 
@@ -21,7 +21,7 @@ const userController = {
       console.log("Signed up user");
       return res
         .status(201)
-        .json({ message: "Signed up user", data: userToDTO(user) });
+        .json({ message: "Signed up user", data: userToDto(user) });
     }),
   ],
 
@@ -34,7 +34,7 @@ const userController = {
         Number(page),
         Number(size)
       );
-      const usersDTO = users.map((user) => userToDTO(user));
+      const usersDTO = users.map((user) => userToDto(user));
       console.log("Found all user from database");
       return res.json({
         message: "List of all users",
@@ -52,7 +52,7 @@ const userController = {
     console.log("Deleting user ", id);
     const deletedUser = await userRepo.deleteUser(id);
     console.log("Deleted user ", deletedUser.id);
-    return res.json({ message: "Deleted User", data: userToDTO(deletedUser) });
+    return res.json({ message: "Deleted User", data: userToDto(deletedUser) });
   }),
 };
 
